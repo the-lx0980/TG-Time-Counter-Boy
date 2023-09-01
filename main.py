@@ -84,4 +84,4 @@ async def counts(bot, update):
             EDITING['chek'] = False          
 
 print('Bot Started!')     
-counter.run(
+counter.run()
