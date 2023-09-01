@@ -1,87 +1,102 @@
-# Lx 0980
-
 from pyrogram import Client, filters, enums
 from time import sleep
 from os import environ
 
-app_id = int(environ.get('app_id'))
-api_hash = environ.get('api_hash')
-bot_token = environ.get('bot_token')
-admin_id = int(environ.get('admin_id'))
+bot_token = environ.get('BOT_TOKEN')
 
 counter = Client(    
     name='Time-Counter',
-    api_id=app_id,
-    api_hash=api_hash,#'751e7a1469a1099fb3748c5ca755e918',
-    bot_token=bot_token #'6285956621:AAF16zJce7vXr3wukHJDO9qOYpXQ-AcSInU'
+    api_id=6353248,
+    api_hash='1346f958b9d917f0961f3e935329eeee',
+    bot_token=bot_token
 )
 
-EDITING = {}
-CANCEL = {}
- 
+EDITING = False
+CANCEL = False 
+admin_id = 5326801541
+
 @counter.on_message(filters.command('cancel') & filters.user(admin_id))
 async def counts(bot, update):
-    cancel = CANCEL.get('cnl')
-    if cancel:
-        CANCEL['cnl'] = True 
-        update.reply('Timer Editing Successfully Stopped!')
+    global CANCEL, EDITING
+    if EDITING:
+        CANCEL = True
+        EDITING = False
+        await update.reply('Timer Editing Successfully Stopped!')
     else:
-          update.reply('No Timer Editing Found')  
-    
+        await update.reply('No Timer Editing Found')  
     
 @counter.on_message(filters.command('start_count') & filters.user(admin_id)) 
 async def counts(bot, update):
-    editing = EDITING.get('chek')
-    if editing:
+    global EDITING
+    if EDITING:
         return await update.reply('Time Counter Already Started!')
-    EDITING['chek'] = True    
+    EDITING = True    
     message = await bot.get_messages(-1001300164856, 85)
-   # print(message.text)
     import re
-    pattern = r"Years:\s*(\d+)\s*Months:\s*(\d+)\s*Days:\s*(\d+)\s*Hours:\s*(\d+)\s*Minutes:\s*(\d+)"  
-    matches = re.search(pattern, message.text) 
-    if matches: 
-        year = int(matches.group(1))
-        month = int(matches.group(2))
-        day = int(matches.group(3))
-        hour = int(matches.group(4))
-        minutes = int(matches.group(5))
+    pattern = r"(\w+)\s*:\s*(\d+)"
+    matches = re.findall(pattern, message.text)
+    if matches:
+        time_units = {}
+        for unit, value in matches:
+            unit = unit.rstrip('s')
+            time_units[unit] = int(value)
+        year = time_units.get("Year", 0)
+        month = time_units.get("Month", 0)
+        day = time_units.get("Day", 0)
+        hour = time_units.get("Hour", 0)
+        minute = time_units.get("Minute", 0)
         seconds = 0
-        print(year, month, day, hour, minutes, seconds)
+        global CANCEL  
         CANCEL = False
         try:
-          while True:
-              if CANCEL.get('cnl'):
-                  EDITING['chek'] = False
-                  break
-              sleep(0.01)
-              seconds += 1
-              if seconds == 60:
-                minutes +=1
-                seconds = 0
-                print(minutes)
-                if minutes == 60:
-                    hour += 1
-                    minutes = 0
-                    if hour == 24:
-                        day += 1
-                        hour = 0
-                        if day == 30:
-                            month += 1
-                            day = 0
-                            if month == 12:
-                                year += 1
-                                month = 0    
-                    text = f"Bot Text.\n\nYears: {year}\nMonths: {month}\nDays: {day}\nHours: {hour}\nMinutes : {minutes}"
-                    await bot.edit_message_text(
-                        chat_id = -1001300164856,
-                        text = text,
-                        message_id = 85,
-                        parse_mode = enums.ParseMode.HTML
-                    )
+            while True:
+                if CANCEL:
+                    print('Time Counter Successfully Stopped!')
+                    break
+                sleep(0.01)
+                seconds += 1
+                if seconds == 60:
+                    minute += 1
+                    seconds = 0
+                    print(minute)
+                    if minute == 60:
+                        hour += 1
+                        minute = 0
+                        if hour == 24:
+                            day += 1
+                            hour = 0
+                            if day == 30:
+                                month += 1
+                                day = 0
+                                if month == 12:
+                                    year += 1
+                                    month = 0
+                        if year > 1:
+                          Year = 'Years'
+                        else:
+                          Year = 'Year'
+                        if month > 1:
+                          Month = 'Months'
+                        else:
+                          Month = 'Month'
+                        if day > 1:
+                          Day = 'Days'
+                        else:
+                          Day = 'Day'
+                        if hour > 1:
+                          Hour = 'Hours'
+                        else:
+                          Hour = 'Hour'
+                        text = f"<b>DFF UPDATES</b>\n\n{Year}: {year}\n{Month}: {month}\n{Day}: {day}\n{Hour}: {hour}\n"
+                        await bot.edit_message_text(
+                            chat_id = -1001300164856,
+                            text = text,
+                            message_id = 85,
+                            parse_mode = enums.ParseMode.HTML
+                        )
         except Exception as e:
             print(str(e))
-            EDITING['chek'] = False          
+            EDITING = False          
 
 print('Bot Started!')     
 counter.run()
