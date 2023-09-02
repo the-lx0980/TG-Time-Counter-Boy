@@ -101,6 +101,7 @@ async def counts(bot, update):
                         )
         except Exception as e:
             print(str(e))
+            await update.reply(str(e))
             EDITING = False          
 
 print('Bot Started!')     
