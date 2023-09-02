@@ -89,9 +89,9 @@ async def counts(bot, update):
                           Hour = 'Hour'
                         text = f"<b>DFF UPDATES</b>\n\n{Year}: {year}\n{Month}: {month}\n{Day}: {day}\n{Hour}: {hour}\n"
                         await bot.edit_message_text(
-                            chat_id = -1001300164856,
+                            chat_id = -1001593055888,
                             text = text,
-                            message_id = 85,
+                            message_id = 732,
                             parse_mode = enums.ParseMode.HTML
                         )
         except Exception as e:
