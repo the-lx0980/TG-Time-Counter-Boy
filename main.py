@@ -15,6 +15,10 @@ EDITING = False
 CANCEL = False 
 admin_id = 5326801541
 
+@counter.on_message(filters.command('start') & filters.user(admin_id))
+async def counts(bot, update):
+    await update.reply('Bot is Running!')
+
 @counter.on_message(filters.command('cancel') & filters.user(admin_id))
 async def counts(bot, update):
     global CANCEL, EDITING
