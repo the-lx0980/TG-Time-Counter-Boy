@@ -15,7 +15,7 @@ EDITING = False
 CANCEL = False 
 admin_id = 5326801541
 
-@counter.on_message(filters.command('start') & filters.user(admin_id))
+@counter.on_message(filters.command('start'))
 async def counts(bot, update):
     await update.reply('Bot is Running!')
 
@@ -34,8 +34,9 @@ async def counts(bot, update):
     global EDITING
     if EDITING:
         return await update.reply('Time Counter Already Started!')
-    EDITING = True    
-    message = await bot.get_messages(-1001300164856, 85)
+    EDITING = True 
+    await update.reply('Time-Counter Started Successfully!')
+    message = await bot.get_messages(-1001593055888, 732)
     import re
     pattern = r"(\w+)\s*:\s*(\d+)"
     matches = re.findall(pattern, message.text)
