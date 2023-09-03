@@ -117,4 +117,4 @@ def get_data(cur_year = 0,
                if start_minute < cur_minute:
                   total_minutes = cur_minute - start_minute
                   print('From Only Minutes')
-    return total_years, total_months, total_days, total_hours, total_minutes            
+    return int(total_years), int(total_months), int(total_days), int(total_hours), int(total_minutes)           
