@@ -51,7 +51,7 @@ async def counts(bot, update):
                    message_id = 3,
                    parse_mode = enums.ParseMode.HTML
              )
-             time.sleep(60)
+             time.sleep(21600)
         except Exception as e:
             print(str(e))
             await update.reply(str(e))
