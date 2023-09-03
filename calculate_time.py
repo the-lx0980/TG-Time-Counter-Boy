@@ -10,8 +10,6 @@ def total_days_in_year(year):
     else:
         return 365  
 
-
-
 def get_data(cur_year = 0,
             cur_month = 0,
             cur_day = 0,
