@@ -1,6 +1,17 @@
 # Lx 0980
 import calendar
- 
+
+def is_leap_year(year):
+   return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+def total_days_in_year(year):
+    if is_leap_year(year):
+        return 366  
+    else:
+        return 365  
+
+
+
 def get_data(cur_year = 0,
             cur_month = 0,
             cur_day = 0,
@@ -8,9 +19,9 @@ def get_data(cur_year = 0,
             cur_minute = 0):
      # Default         
     start_year = 2023    
-    start_month = 9,
-    start_day = 3,
-    start_hour = 0,
+    start_month = 9
+    start_day = 3
+    start_hour = 0
     start_minute = 0 
 
     # Set To 0
