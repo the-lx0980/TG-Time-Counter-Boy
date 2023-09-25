@@ -21,9 +21,9 @@ def get_data():
      # Default         
     start_year = 2023    
     start_month = 9
-    start_day = 14
-    start_hour = 17
-    start_minute = 34 
+    start_day = 25
+    start_hour = 14
+    start_minute = 41 
 
     # Set To 0
     total_years = 0
